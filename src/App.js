@@ -5,13 +5,17 @@ import { FormattedMessage, IntlProvider } from 'react-intl';
 import Spanish from './lang/es.json';
 import English from './lang/en.json';
 import { useForm } from 'react-hook-form';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import HomePage from './components/HomePage/HomePage';
+import UserPage from './components/UserPage/UserPage';
+import CreateUserPage from './components/CreateUserPage/CreateUserPage';
 
 const locale = navigator.language;
 
 function App() {
   const [messages, setMessages] = React.useState(English);
   const [currentLanguange, setCurrentLanguage] = React.useState('en');
-  const { register, handleSubmit, watch } = useForm({ defaultValues: { language: currentLanguange } });
+  const { watch } = useForm({ defaultValues: { language: currentLanguange } });
   const currentLanguangeLive = watch('language');
   if (currentLanguangeLive !== currentLanguange) {
     setCurrentLanguage(currentLanguangeLive);
@@ -28,25 +32,30 @@ function App() {
   }
   return (
     <IntlProvider locale={locale} messages={messages}>
-      <div className='App'>
-        <div>
-          <h2>Users!</h2>
-          <button onClick={() => setMessages(Spanish)}>ES</button>
-          <button onClick={() => setMessages(English)}>EN</button>
-          <Cabecera></Cabecera>
+      <BrowserRouter>
+        <div className='App'>
+          <div>
+            <h2>
+              <FormattedMessage id='header.logo' />
+            </h2>
+            <Cabecera></Cabecera>
+            <button onClick={() => setMessages(Spanish)}>
+              <FormattedMessage id='header.spanish'></FormattedMessage>
+            </button>
+            <button onClick={() => setMessages(English)}>
+              <FormattedMessage id='header.english'></FormattedMessage>
+            </button>
+          </div>
         </div>
-        <FormattedMessage id='app:language_selector' />
-        <form onSubmit={handleSubmit((data) => console.log(data))}>
-          <select {...register('language')}>
-            <option value='es'>
-              <FormattedMessage id='app:spanish'></FormattedMessage>
-            </option>
-            <option value='en'>
-              <FormattedMessage id='app:english'></FormattedMessage>
-            </option>
-          </select>
-        </form>
-      </div>
+        <Routes>
+          {/* Ruta Normal */}
+          <Route path='/' element={<HomePage></HomePage>}></Route>
+
+          {/* Rutas Lazy */}
+          <Route path='/users' element={<UserPage></UserPage>}></Route>
+          <Route path='/create-user' element={<CreateUserPage></CreateUserPage>}></Route>
+        </Routes>
+      </BrowserRouter>
     </IntlProvider>
   );
 }

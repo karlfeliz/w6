@@ -1,9 +1,18 @@
+import { FormattedMessage } from 'react-intl';
+
 const HomePage = () => {
   return (
     <div>
-      <h1>Welcome!</h1>
-      <p>This is a user management application</p>
-      <p>On this website, you can store as many users as you want, but remember that they will not be saved in the API... sorry :(</p>
+      <h1>
+        <FormattedMessage id='home:welcome' />
+      </h1>
+      <p>
+        <FormattedMessage id='home:userManagement' />
+      </p>
+      <p>
+        {' '}
+        <FormattedMessage id='home:apiDisclaimer' />
+      </p>
     </div>
   );
 };

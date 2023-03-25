@@ -1,10 +1,9 @@
 /* eslint-disable indent */
 import React from 'react';
-// import UserDetail from './components/UserDetail';
 
-const API_URL = 'https://jsonplaceholder.typicode.com/users';
+const API_URL = process.env.REACT_APP_API_URL;
 
-const UserPage = (props) => {
+const UserPage = () => {
   const [users, setUsers] = React.useState([]);
 
   React.useEffect(() => {
@@ -18,31 +17,29 @@ const UserPage = (props) => {
   };
 
   return (
-    <div className='UserPage'>
-      {users.data.map((user) => {
-        return (
-          <div key={user._id} className='users__item'>
-            <table className='selectedRecipe-item__table'>
-              <tbody>
-                <tr>
-                  <th>ID</th>
-                  <th>NOMBRE</th>
-                  <th>NOMBRE DE USUARIO</th>
-                  <th>CORREO ELECTRÓNICO</th>
-                  <th>SITIO WEB</th>
-                </tr>
-                <tr>
-                  <td>{user.id}</td>
-                  <td>{user.name}</td>
-                  <td>{user.username}</td>
-                  <td>{user.email}</td>
-                  <td>{user.website}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        );
-      })}
+    <div className='users__item'>
+      <table className='users__table'>
+        <tbody>
+          <tr>
+            <th>ID</th>
+            <th>NOMBRE</th>
+            <th>NOMBRE DE USUARIO</th>
+            <th>CORREO ELECTRÓNICO</th>
+            <th>SITIO WEB</th>
+          </tr>
+          {users.map((user) => {
+            return (
+              <tr key={user.id}>
+                <td>{user.id}</td>
+                <td>{user.name}</td>
+                <td>{user.username}</td>
+                <td>{user.email}</td>
+                <td>{user.website}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </div>
   );
 };
